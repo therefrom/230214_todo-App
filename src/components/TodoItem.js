@@ -1,40 +1,70 @@
 // TodoItem은 할일 하나하나의 목록과 삭제 버튼입니다.
-
 import React from 'react';
 import styled from 'styled-components';
-import { MdCheckCircleOutline, MdCheckCircle} from 'react-icons/md'
+import { MdCheckCircleOutline, MdCheckCircle, MdDelete } from 'react-icons/md'
 
 const TodoItemBox = styled.div`
-  
-  padding: 13px 0px;
-  border-bottom: 1px solid #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 5px;
+  border-bottom: 1px solid #e5e8eb;
   flex: 1;
-  font-size: 20px;
+  font-size: 18px;
 
   .content {
-    // 와
     cursor: pointer;
     flex: 1;
     display: flex;
     align-items: center;
   }
 
-  .content.checked .text {
+  // 완료하면 바뀌는 스타일
+  .checked .text {
     // 완료한 작업 글자
-    color: gray;
+    color: #d1d6db;
     text-decoration: line-through;
-    opacity: 50%;
-  }
+  }  
+`
+const Text = styled.div`
+  // 리스트 서체 설정
+  flex: 1;  
+`
+const TodoIcon = styled.div`
+  // 할일 앞쪽의 체크박스 스타일
+  margin-right: 5px;
+  color: #3182f6;
+  display: flex;
+  align-items: center;
+`
+const Remove = styled.div`
+  // 삭제버튼
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #D6D6D6;
+  font-size: 24px;
+  cursor: pointer;
+  &:hover { color: #ff6b6b; }
 `
 
-function TodoItem( {todo} ) {
-  const { text, checked } = todo;
+function TodoItem({ todo, onCheckToggle, onCreateToggle, onChangeSelected }) {
+  const { id, text, checked } = todo;
   
   return (
     <TodoItemBox>
       <div className={`content ${checked ? 'checked' : ''}`}>
-        {checked ? <MdCheckCircle /> : <MdCheckCircleOutline />}
-        <div className='text'>{text}</div>
+        <TodoIcon>
+          {checked ? 
+          <MdCheckCircle onClick={()=>{onCheckToggle(id)}} /> : 
+          <MdCheckCircleOutline onClick={()=>{onCheckToggle(id)}} />}
+        </TodoIcon>
+        <Text className='text' onClick={()=>{
+          onChangeSelected(todo)
+          onCreateToggle()
+          }}>{text}</Text>
+        <Remove><MdDelete /></Remove>
       </div>
     </TodoItemBox>
   )

@@ -23,7 +23,6 @@ const TodoHeadBox = styled.div`
     margin-top: 30px;
     font-size: 16px;
     color: #1b64da;
-    font-weight: 900;
   }
 `
 
@@ -31,7 +30,7 @@ function TodoHead( {todos} ) {
   return (
     <TodoHeadBox>
       <h1>To-Do List</h1>
-      <div className="day">2023년 2월 9일 목요일</div>
+      <div className="day">2023년 2월 14일 화요일</div>
       <div className="tasks">남은 할일 {todos.length}개</div>
     </TodoHeadBox>
   );
