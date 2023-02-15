@@ -1,7 +1,7 @@
 // TodoCreate는 할일을 입력하는 input 칸입니다
 import React, { useEffect, useState } from "react";
 import styled from 'styled-components';
-import { MdClose } from "react-icons/md";
+import { MdClose, MdDelete, MdBorderColor } from "react-icons/md";
 
 const TodoCreateBox = styled.div`
   .background {
@@ -59,8 +59,26 @@ const TodoCreateBox = styled.div`
     }
   }
 `
+const Icons = styled.div`
+  // 수정 / 삭제버튼
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  color: #D6D6D6;
+  font-size: 30px;
+  cursor: pointer;
 
-function TodoCreate({ onCreateToggle, onCreateTodo, selected }) {
+  .editIcon {
+    &:hover { color: #3687FF; }
+  }
+
+  .deleteIcon {
+    &:hover { color: #ff6b6b; }
+  }
+`
+
+function TodoCreate({ onCreateToggle, onCreateTodo, selected, onRemove, onUpdate }) {
   const [value, setValue] = useState(""); // 입력폼 상태 관리
   const onChange = e => { // 입력폼에 입력하는 값에 따라 변경
     setValue(e.target.value);
@@ -81,13 +99,19 @@ function TodoCreate({ onCreateToggle, onCreateTodo, selected }) {
   return (
     <TodoCreateBox>
       <div className="background">
-        <form onSubmit={onSubmit}>
+        <form onSubmit={selected ? () => {onUpdate(selected.id, value)} : {onSubmit}}>
           <div className="closeButton"><MdClose onClick={onCreateToggle} /></div>
           <input
             placeholder="오늘 할 일은 무엇인가요?"
             value={value}
             onChange={onChange} />
-          <button type="submit">작성하기</button>
+          {selected ? (
+              <Icons>
+                <MdBorderColor className="editIcon" onClick={() => {onUpdate(selected.id, value)}}/>
+                <MdDelete className="deleteIcon" onClick={()=>{onRemove(selected.id)}}/>
+              </Icons>) : (
+              <button type="submit">작성하기</button>)
+          }
         </form>
       </div>
     </TodoCreateBox>

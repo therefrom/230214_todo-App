@@ -17,7 +17,8 @@ function TodoList({ todos, onCheckToggle, onCreateToggle, onChangeSelected }) {
         todo={todo}
         onCheckToggle={onCheckToggle}
         onCreateToggle={onCreateToggle} 
-        onChangeSelected={onChangeSelected} />
+        onChangeSelected={onChangeSelected} 
+        />
       ))}
     </TodoListBox>
   )

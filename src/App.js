@@ -26,10 +26,9 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-let nextId = 3;
+let nextId = 2;
 const dummyData = [
-  {id: 1, text: "리액트 복습하기", checked: false},
-  {id: 2, text: "달력 발주하기", checked: false},
+  {id: 1, text: "할일을 추가해 보세요!", checked: true},
 ]
 
 function App() {
@@ -37,8 +36,12 @@ function App() {
   const [todos, setTodos] = useState(dummyData); // 전체 리스트 상태 변경하기
   const [createToggle, setCreateToggle] = useState(false); // 새 할일 입력하는 모달
   const [selected, setSelected] = useState(null); // 수정하기
+
   const onCreateToggle = () => {
     // 이전 값의 boolean 값을 반대로 바꿔주는 함수, 팝업창을 띄워줍니다
+    if (selected) {
+      setSelected(null);
+    }
     setCreateToggle(prev => !prev)
   }
   const onCreateTodo = (text) => {
@@ -56,13 +59,24 @@ function App() {
     }
   };
   const onCheckToggle = (id) => {
-    // 체크박스 여부에 따라 바꿔줌!
+    // 체크박스를 클릭해 완료한 항목 여부를 바꿔줍니다.
     setTodos(todos => todos.map(todo => (todo.id === id ? {...todo, checked: !todo.checked} : todo)))
   }
   const onChangeSelected = (todo) => {
     // 수정한 내용 다시 입력하는 함수
     setSelected(todo)
   }
+  const onRemove = (id) => {
+    // 할 일 목록을 삭제하는 함수
+    onCreateToggle();
+    setTodos(todos => todos.filter(todo => todo.id !== id));
+  }
+  const onUpdate = (id, text) => {
+    // 수정한 내용 반영하는 함수
+    onCreateToggle();
+    setTodos(todos => todos.map(todo => (todo.id === id ? {...todo, text} : todo)))
+  }
+
   return (
     <>
     <GlobalStyle />
@@ -72,14 +86,16 @@ function App() {
           todos={todos}
           onCheckToggle={onCheckToggle}
           onCreateToggle={onCreateToggle} 
-          onChangeSelected= {onChangeSelected} 
+          onChangeSelected={onChangeSelected} 
         />
         <MdAddCircle className='createButton' onClick={onCreateToggle} />
         {createToggle && 
           <TodoCreate
             onCreateToggle={onCreateToggle}
             onCreateTodo={onCreateTodo} 
-            selected={selected} />}
+            selected={selected} 
+            onRemove={onRemove} 
+            onUpdate={onUpdate} />}
       </Template>
     </>
   );

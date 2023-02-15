@@ -1,7 +1,7 @@
 // TodoItem은 할일 하나하나의 목록과 삭제 버튼입니다.
 import React from 'react';
 import styled from 'styled-components';
-import { MdCheckCircleOutline, MdCheckCircle, MdDelete } from 'react-icons/md'
+import { MdCheckCircleOutline, MdCheckCircle } from 'react-icons/md'
 
 const TodoItemBox = styled.div`
   display: flex;
@@ -37,17 +37,6 @@ const TodoIcon = styled.div`
   display: flex;
   align-items: center;
 `
-const Remove = styled.div`
-  // 삭제버튼
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: #D6D6D6;
-  font-size: 24px;
-  cursor: pointer;
-  &:hover { color: #ff6b6b; }
-`
 
 function TodoItem({ todo, onCheckToggle, onCreateToggle, onChangeSelected }) {
   const { id, text, checked } = todo;
@@ -64,7 +53,7 @@ function TodoItem({ todo, onCheckToggle, onCreateToggle, onChangeSelected }) {
           onChangeSelected(todo)
           onCreateToggle()
           }}>{text}</Text>
-        <Remove><MdDelete /></Remove>
+        
       </div>
     </TodoItemBox>
   )
